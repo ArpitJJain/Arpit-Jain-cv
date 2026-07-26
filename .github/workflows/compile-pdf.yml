@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+  workflow_dispatch: # <-- Add this line to enable manual triggers
 
 permissions:
   contents: write
@@ -14,11 +15,6 @@ permissions:
 jobs:
   build_and_release:
     runs-on: ubuntu-latest
-
-    # Required for native GitHub Pages deployment
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout Repository
