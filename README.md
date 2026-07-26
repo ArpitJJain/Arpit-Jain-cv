@@ -2,6 +2,9 @@
 
 Automated LaTeX compilation pipeline for compiling and deploying **Arpit Jain's CV and Cover Letter** to **GitHub Pages** and **GitHub Releases**.
 
+
+### Profile URL : [Arpit Jain CV](https://arpitjjain.github.io/Arpit-Jain-cv/)
+
 ---
 
 ## 📁 Repository Structure
