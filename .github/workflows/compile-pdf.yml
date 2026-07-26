@@ -1,0 +1,37 @@
+name: Build LaTeX Resume & Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX Document
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: resume.tex
+          args: "-pdf -interaction=nonstopmode -halt-on-error"
+
+      - name: Move PDF & Web Artifacts
+        run: |
+          mkdir -p public
+          mv resume.pdf public/
+          cp index.html public/
+
+      - name: Upload Artifact (Backup PDF in Actions Run)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Resume-PDF
+          path: public/resume.pdf
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
