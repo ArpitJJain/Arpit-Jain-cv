@@ -10,13 +10,16 @@ Automated LaTeX compilation pipeline for compiling and deploying **Arpit Jain's 
 ├── .github/
 │   └── workflows/
 │       └── compile-pdf.yml    # CI/CD workflow for compilation & deployment
-├── data/                      # Modular LaTeX components
-│   ├── education.tex          # Academic background & achievements
-│   ├── experience.tex         # Professional history & key accomplishments
-│   ├── header.tex             # Contact info & header block
-│   ├── skills.tex             # Technical skills matrix
-│   └── summary.tex            # Executive summary & core competencies
-├── cover_letter.tex           # Main TeX file for Cover Letter
-├── resume.tex                 # Main TeX file for Curriculum Vitae
-├── index.html                 # Web viewer interface for GitHub Pages
+├── data/
+│   ├── packages.tex       <-- ALL LaTeX packages & formatting definitions
+│   ├── header.tex         <-- Header (Name, contact details)
+│   ├── summary.tex        <-- Executive summary & Core Competencies
+│   ├── experience.tex     <-- UBS, Citi, Cognizant
+│   ├── education.tex      <-- Walchand Institute
+│   ├── skills.tex         <-- Tech skills matrix
+│   ├── cover_text.tex     <-- Cover letter main body text
+│   └── signature.tex      <-- Closing sign-off & signature block
+├── resume.tex             <-- Lean CV driver
+├── cover_letter.tex       <-- Lean Cover Letter driver
+├── index.html             <-- Web viewer
 └── README.md                  # Project documentation
