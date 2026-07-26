@@ -3,14 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arpit Jain - Resume</title>
+    <title>Arpit Jain - Resume & Cover Letter</title>
     <style>
-        body, html {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+        body, html {
             height: 100%;
-            overflow: hidden;
-            font-family: sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f5f7;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+        .profile-title h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .profile-title p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+        nav {
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-tab {
+            background-color: #334155;
+            color: #cbd5e1;
+            border: 1px solid #475569;
+        }
+        .btn-tab:hover {
+            background-color: #475569;
+            color: #ffffff;
+        }
+        .btn-tab.active {
+            background-color: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+        }
+        .btn-download {
+            background-color: #10b981;
+            color: #ffffff;
+            border: none;
+            margin-left: 12px;
+        }
+        .btn-download:hover {
+            background-color: #059669;
+        }
+        main {
+            flex: 1;
+            width: 100%;
+            height: calc(100vh - 60px);
         }
         iframe {
             width: 100%;
@@ -20,6 +87,48 @@
     </style>
 </head>
 <body>
-    <iframe src="resume.pdf" type="application/pdf"></iframe>
+
+    <header>
+        <div class="profile-title">
+            <h1>Arpit Jain</h1>
+            <p>Technology Leader & Platform Engineer</p>
+        </div>
+        <nav>
+            <!-- View Tabs -->
+            <button class="btn btn-tab active" id="tab-cv" onclick="showDocument('resume.pdf', 'tab-cv')">📄 View CV</button>
+            <button class="btn btn-tab" id="tab-cl" onclick="showDocument('cover_letter.pdf', 'tab-cl')">✉️ View Cover Letter</button>
+            
+            <!-- Direct Downloads -->
+            <a href="resume.pdf" download="Arpit_Jain_CV.pdf" id="download-btn" class="btn btn-download">⬇️ Download CV</a>
+        </nav>
+    </header>
+
+    <main>
+        <iframe id="pdf-viewer" src="resume.pdf" type="application/pdf"></iframe>
+    </main>
+
+    <script>
+        function showDocument(pdfPath, activeTabId) {
+            // Update iframe source
+            document.getElementById('pdf-viewer').src = pdfPath;
+
+            // Toggle active state on buttons
+            document.querySelectorAll('.btn-tab').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(activeTabId).classList.add('active');
+
+            // Update download button behavior
+            const downloadBtn = document.getElementById('download-btn');
+            if (pdfPath === 'cover_letter.pdf') {
+                downloadBtn.href = 'cover_letter.pdf';
+                downloadBtn.download = 'Arpit_Jain_Cover_Letter.pdf';
+                downloadBtn.innerText = '⬇️ Download Cover Letter';
+            } else {
+                downloadBtn.href = 'resume.pdf';
+                downloadBtn.download = 'Arpit_Jain_CV.pdf';
+                downloadBtn.innerText = '⬇️ Download CV';
+            }
+        }
+    </script>
+
 </body>
 </html>
