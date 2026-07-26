@@ -1,224 +1,23 @@
 \documentclass[letterpaper,11pt]{article}
-
-\usepackage{latexsym}
-\usepackage[empty]{fullpage}
-\usepackage{titlesec}
-\usepackage{marvosym}
-\usepackage[usenames,dvipsnames]{color}
-\usepackage{verbatim}
-\usepackage{enumitem}
-\usepackage[hidelinks]{hyperref}
-\usepackage{fancyhdr}
-\usepackage[english]{babel}
-\usepackage{tabularx}
-
-% fontawesome
-\usepackage{fontawesome5}
-
-% fixed width
-\usepackage[scale=0.90,lf]{FiraMono}
-
-% grey colors
-\definecolor{light-grey}{gray}{0.83}
-\definecolor{dark-grey}{gray}{0.3}
-\definecolor{text-grey}{gray}{.08}
-
-\DeclareRobustCommand{\ebseries}{\fontseries{eb}\selectfont}
-\DeclareTextFontCommand{\texteb}{\ebseries}
-
-% custom underline
-\usepackage{contour}
-\usepackage[normalem]{ulem}
-\renewcommand{\ULdepth}{1.8pt}
-\contourlength{0.8pt}
-\newcommand{\myuline}[1]{%
-  \uline{\phantom{#1}}%
-  \llap{\contour{white}{#1}}%
-}
-
-% custom font: helvetica-style
-\usepackage{tgheros}
+\usepackage{latexsym, titlesec, enumitem, hyperref, fancyhdr, fontawesome5, tgheros, color}
 \renewcommand*\familydefault{\sfdefault}
-\usepackage[T1]{fontenc}
 
-\pagestyle{fancy}
-\fancyhf{} % clear all header and footer fields
-\fancyfoot{}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}
-
-% Adjust margins
-\addtolength{\oddsidemargin}{-0.5in}
-\addtolength{\evensidemargin}{0in}
-\addtolength{\textwidth}{1in}
-\addtolength{\topmargin}{-.5in}
-\addtolength{\textheight}{1.0in}
-
-\urlstyle{same}
-
-\raggedbottom
-\raggedright
-\setlength{\tabcolsep}{0in}
-
-% sans serif sections
-\titleformat {\section}{
-    \bfseries \vspace{2pt} \raggedright \large
-}{}{0em}{}[\color{light-grey} {\titlerule[2pt]} \vspace{-4pt}]
-
-% Custom commands
-\newcommand{\resumeItem}[1]{
-  \item\small{
-    {#1 \vspace{-1pt}}
-  }
-}
-
-\newcommand{\resumeSubheading}[4]{
-  \vspace{-1pt}\item
-    \begin{tabular*}{\textwidth}[t]{l@{\extracolsep{\fill}}r}
-      \textbf{#1} & {\color{dark-grey}\small #2}\vspace{1pt}\\
-      \textit{#3} & {\color{dark-grey} \small #4}\\
-    \end{tabular*}\vspace{-4pt}
-}
-
-\newcommand{\resumeSubSubheading}[2]{
-    \item
-    \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
-      \textit{\small#1} & \textit{\small #2} \\
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\resumeProjectHeading}[2]{
-    \item
-    \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
-      #1 & {\color{dark-grey}} \\
-    \end{tabular*}\vspace{-4pt}
-}
-
-\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
-
-\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
-
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0in, label={}]}
-\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{0pt}}
-
-\color{text-grey}
-
-%-------------------------------------------
-%%%%%% RESUME STARTS HERE %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ... [Include your custom macros like \resumeItem, \resumeSubheading here] ...
 
 \begin{document}
 
-%----------HEADING----------
-\begin{center}
-    \textbf{\Huge Arpit Jain} \\ \vspace{5pt}
-    \small \faPhone* \texttt{+91 986.069.9870} \hspace{1pt} $|$
-    \hspace{1pt} \faEnvelope \hspace{2pt} \texttt{arpit.j.jain@gmail.com} \hspace{1pt} $|$ 
-    \hspace{1pt} \faMapMarker* \hspace{2pt}\texttt{Pune, India}
-    \\ \vspace{-3pt}
-\end{center}
+\input{data/header.tex}
 
-%-----------EXECUTIVE SUMMARY--------------
 \section{EXECUTIVE SUMMARY}
-Driven \textbf{Technology Leader \& Product Owner} with over 16 years of experience engineering high-performance platform architectures and financial technology systems for global institutions including UBS and Citi. Proven track record of executing enterprise cloud strategy, driving cloud migrations across Azure and private environments, and optimizing mission-critical infrastructure to boost resiliency while reducing operational costs. Expert in risk management, clearing, settlements, and regulatory compliance within Exchange Traded Derivatives. Passionate about unifying cross-functional teams to accelerate AI-driven innovation and align modern engineering with core business goals.
+\input{data/summary.tex}
 
-\vspace{4pt}
-\textbf{Core Competencies:}
-\resumeItemListStart
-    \resumeItem{\textbf{Enterprise Architecture \& Strategy}: Large-Scale Application Design, Microservices, Cloud Migration}
-    \resumeItem{\textbf{Cloud \& Infrastructure}: Azure Cloud, Private Cloud Platforms, DevOps Transformation, Automation}
-    \resumeItem{\textbf{Domain Expertise}: Exchange Traded Derivatives (Clearing \& Settlement), Risk Management, Regulatory Compliance}
-    \resumeItem{\textbf{Leadership \& Delivery}: Product Ownership, Global Team Leadership, Business-Technology Alignment}
-\resumeItemListEnd
-
-%-----------EXPERIENCE-----------
 \section{EXPERIENCE}
-  \resumeSubHeadingListStart
+\input{data/experience.tex}
 
-    \resumeSubheading
-      {UBS}{Aug. 2023 -- Present}
-      {Director: Platform Engineer / Scrum Master / Deputy Product Owner (Aqua)}{Pune, India}
-      \resumeItemListStart
-        \resumeItem{Engineered an automated data extraction pipeline to streamline compliance reporting for internal and external audits, eliminating manual overhead for data completeness, correctness, and user access validations.}
-        \resumeItem{Engineered a custom \textbf{MCP (Model Context Protocol) server} that automates entitlement workflows, enabling traders to seamlessly request and gain access to business functions and book hierarchies.}
-        \resumeItem{Integrated \textbf{Active Directory with Azure Graph API} across trading platforms to deploy a Security Group and Application Identity-based authorization model, decoupling legacy access architecture into modular microservices.}
-        \resumeItem{Architected a resilient access control fallback mechanism using cached state management, ensuring uninterrupted trading operation continuity during network or directory service failures.}
-        \resumeItem{Architected an automated dependency management framework that streamlined vulnerable library patching across \textbf{150+ repositories} with minimal manual effort.}
-        \resumeItem{Drive product roadmap, backlog, and milestone delivery across two global engineering teams, balancing \textbf{70\% hands-on engineering} with \textbf{30\% platform management}.}
-        \resumeItem{Lead platform modernization to enable dynamic scalability and high availability on \textbf{Kubernetes}, upgrading core service architecture for enhanced security and maintainability.}
-        \resumeItem{Mentor global engineering teams across India, APAC, and EMEA, driving strict adherence to Agile, DevOps, and UBS enterprise engineering standards.}
-      \resumeItemListEnd
-
-    \resumeSubheading
-      {Citi}{Jan. 2021 -- Aug. 2023}
-      {Vice President: Dev Lead \& Product Owner}{Pune, India}
-      \resumeItemListStart
-        \resumeItem{Architected a high-throughput distributed platform using \textbf{Spring Boot, Kafka, and Redis} microservices to process and reconcile \textbf{2M+ daily trade feeds} from global clearing houses within 2 hours.}
-        \resumeItem{Reduced overall technology operating costs by \textbf{30\%} through strategic cloud and SaaS adoption initiatives.}
-        \resumeItem{Built a full-stack monitoring and alerting ecosystem using \textbf{ELK, ITRS, and AppDynamics} to elevate system operational resiliency.}
-        \resumeItem{Managed a 10-member cross-functional team (Backend, UI, DevOps) ensuring continuous regulatory compliance.}
-        \resumeItem{Spearheaded Dev Tool Adoption for Equities Pune, standardizing DevOps workflows and instituting \textbf{DORA metrics}.}
-      \resumeItemListEnd
-
-    \resumeSubheading
-      {Citi}{Nov. 2013 -- Dec. 2020}
-      {Vice President: Dev Lead \& Product Owner}{Pune, India}
-      \resumeItemListStart
-        \resumeItem{Led development of Citi's strategic in-house clearing platform, replacing legacy vendor solutions and processing \textbf{6M+ daily records} via high-availability trade gateways.}
-        \resumeItem{Migrated core infrastructure to cloud architectures with distributed caching and zero-downtime cache refresh capabilities.}
-        \resumeItem{Restructured distributed IBM MQ network connections to global clearing houses, achieving network redundancy for BCM while \textbf{slashing network costs by 40\%}.}
-        \resumeItem{Designed scalability benchmarks to successfully absorb \textbf{300\%+ trading spikes} during peak volatility events.}
-        \resumeItem{Established end-to-end CI/CD pipelines (Jenkins, Docker, SonarQube), accelerating release deployment velocity by \textbf{75\%}.}
-        \resumeItem{Optimized global resource structure, streamlining team size by 40\% while \textbf{boosting delivery velocity by 20\%}.}
-        \resumeItem{Spearheaded data center consolidation and Oracle decommissioning, yielding \textbf{\$50K+ in annual cost savings}.}
-        \resumeItem{Directed the Application Maturity Model initiative across 20+ applications in Pune to elevate security and platform ownership.}
-      \resumeItemListEnd
-
-    \resumeSubheading
-      {Cognizant}{Jan. 2010 -- Nov. 2013}
-      {Associate: Senior Developer}{Pune, India}
-      \resumeItemListStart
-        \resumeItem{Engineered post-day-close market data processing and data rollover systems for \textbf{CBOE}, reducing system restart window to under 10 minutes and enabling 24x5 continuous exchange trading.}
-        \resumeItem{Led a 10-member innovation task force building custom CI/CD automation and automated error recovery pipelines.}
-      \resumeItemListEnd
-
-  \resumeSubHeadingListEnd
-
-%-----------EDUCATION-----------
 \section{EDUCATION}
-  \resumeSubHeadingListStart
-    \resumeSubheading
-      {Walchand Institute of Technology}{July 2005 -- May 2009}
-      {Bachelor of Engineering in Electronics}{Solapur, MH, India}
-      \resumeItemListStart
-        \resumeItem{\textbf{Business Idea}: Awarded 2nd place in the Business Baazigar competition for pitching an innovative RFID-based automated checkout solution for retail malls.}
-        \resumeItem{\textbf{Project}: Engineered an end-to-end breathalyzer prototype using low-level Assembly programming and custom hardware assembly.}
-      \resumeItemListEnd
-  \resumeSubHeadingListEnd
+\input{data/education.tex}
 
-%-----------SKILLS-----------
 \section{SKILLS}
- \begin{itemize}[leftmargin=0in, label={}]
-    \small{\item{
-     \textbf{AI, Protocols \& Automation} {: Model Context Protocol (MCP) Servers (Java/Spring Tools \& Python), Azure AI, AI Chatbots, Anomaly Detection}\vspace{2pt} \\
-    \textbf{Cloud Architecture \& DevOps} {: Azure, Kubernetes, Docker, Terraform, Helm, Jenkins, GitLab CI/CD}\vspace{2pt} \\
-    \textbf{Backend \& Enterprise Systems} {: Java, Spring Boot, Spring Cloud, Spring Batch, Kafka, IBM MQ, Redis}\vspace{2pt} \\
-    \textbf{Database \& Storage Management} {: Oracle, PostgreSQL, MongoDB}\vspace{2pt} \\
-    \textbf{Observability \& Performance Monitoring} {: Grafana, Prometheus, ELK, AppDynamics, ITRS, Azure AppInsights}\vspace{2pt} \\
-    \textbf{Automated Testing \& QA} {: Cucumber, JUnit, Mockito, JMeter, Gatling}
-    }}
- \end{itemize}
-
-%-----------SIGNATURE-----------
-\vspace{10pt}
-\begin{flushright}
-    \small
-    \textbf{Thanks \& Regards,}\\[2pt]
-    \textbf{Arpit Jain}\\[2pt]
-    Pune, India $|$ \today
-\end{flushright}
-%-----------------------------------------
-
+\input{data/skills.tex}
 
 \end{document}

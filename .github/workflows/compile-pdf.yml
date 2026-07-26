@@ -1,57 +1,48 @@
-name: Build LaTeX Resume & Deploy Page/Release
+name: Build Resume & Cover Letter
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build_latex:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Required for GitHub Releases and Pages deployment
+      contents: write
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Compile LaTeX Document
+      - name: Compile CV
         uses: xu-cheng/latex-action@v3
         with:
           root_file: resume.tex
           args: "-pdf -interaction=nonstopmode -halt-on-error"
 
-      - name: Generate Timestamp & Copy PDF with Custom Name
-        id: timestamp
+      - name: Compile Cover Letter
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: cover_letter.tex
+          args: "-pdf -interaction=nonstopmode -halt-on-error"
+
+      - name: Generate Timestamp & Copy PDFs
         run: |
           TIMESTAMP=$(date +'%Y-%m-%d_%H%M%S')
-          FILE_NAME="Arpit_Jain_CV_${TIMESTAMP}.pdf"
-          
-          echo "timestamp=${TIMESTAMP}" >> $GITHUB_OUTPUT
-          echo "file_name=${FILE_NAME}" >> $GITHUB_OUTPUT
-          
-          # Create public directory for GitHub Pages web view
           mkdir -p public
+          
+          # Move to public folder for GitHub Pages
           cp resume.pdf public/
+          cp cover_letter.pdf public/
           cp index.html public/
           
-          # Create timestamped copy for GitHub Release
-          cp resume.pdf "${FILE_NAME}"
+          # Save timestamped copies
+          cp resume.pdf "Arpit_Jain_CV_${TIMESTAMP}.pdf"
+          cp cover_letter.pdf "Arpit_Jain_CoverLetter_${TIMESTAMP}.pdf"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: release-${{ steps.timestamp.outputs.timestamp }}
-          name: Resume Release (${{ steps.timestamp.outputs.timestamp }})
-          body: "Automated LaTeX compilation build."
-          draft: false
-          prerelease: false
-          files: ${{ steps.timestamp.outputs.file_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
