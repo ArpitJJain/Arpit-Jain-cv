@@ -3,10 +3,13 @@ name: Build & Release Resume & Cover Letter
 on:
   push:
     branches:
+      - main
       - master
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build_and_release:
@@ -46,11 +49,18 @@ jobs:
           cp resume.pdf "Arpit_Jain_CV_${{ steps.timestamp.outputs.ts }}.pdf"
           cp cover_letter.pdf "Arpit_Jain_Cover_Letter_${{ steps.timestamp.outputs.ts }}.pdf"
 
-      - name: Deploy Web Page to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      # Upload Pages artifact for native GitHub Pages deployment
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          path: './public'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
