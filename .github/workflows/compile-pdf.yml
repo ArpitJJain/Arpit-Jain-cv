@@ -3,14 +3,33 @@ name: Build & Release Resume & Cover Letter
 on:
   push:
     branches:
-      - main
       - master
   workflow_dispatch:
+    inputs:
+      company_name:
+        description: 'Target Company Name'
+        required: false
+        default: 'Target Company Name'
+        type: string
+      hiring_manager:
+        description: 'Hiring Manager Name'
+        required: false
+        default: 'Hiring Manager'
+        type: string
+      company_location:
+        description: 'Company Location'
+        required: false
+        default: 'Location'
+        type: string
 
 permissions:
   contents: write
   pages: write
   id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build_and_release:
@@ -22,50 +41,89 @@ jobs:
 
       - name: Set Timestamp Output
         id: timestamp
-        run: |
-          echo "ts=$(date +'%Y-%m-%d_%H-%M')" >> $GITHUB_OUTPUT
+        run: echo "ts=$(date +'%Y-%m-%d_%H-%M')" >> $GITHUB_OUTPUT
 
+      # Injects workflow inputs into LaTeX variables dynamically
+      - name: Prepare Dynamic Cover Letter Parameters
+        run: |
+          COMPANY="${{ inputs.company_name || 'Target Company Name' }}"
+          MANAGER="${{ inputs.hiring_manager || 'Hiring Manager' }}"
+          LOCATION="${{ inputs.company_location || 'Location' }}"
+
+          cat <<EOF > cover_letter_dynamic.tex
+          \newcommand{\varCompanyName}{${COMPANY}}
+          \newcommand{\varHiringManager}{${MANAGER}}
+          \newcommand{\varLocation}{${LOCATION}}
+          EOF
+          
+          cat cover_letter.tex >> cover_letter_dynamic.tex
+
+      # Compile Resume PDF
       - name: Compile CV
         uses: xu-cheng/latex-action@v3
         with:
           root_file: resume.tex
           args: "-pdf -interaction=nonstopmode -halt-on-error"
 
+      # Compile Cover Letter PDF using dynamic wrapper
       - name: Compile Cover Letter
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: cover_letter.tex
+          root_file: cover_letter_dynamic.tex
           args: "-pdf -interaction=nonstopmode -halt-on-error"
 
-      - name: Prepare Artifacts & Web Files
+      - name: Rename Cover Letter Output
+        run: mv cover_letter_dynamic.pdf cover_letter.pdf
+
+      # --- ALWAYS AVAILABLE: Download PDFs from Workflow Summary / Artifacts ---
+      - name: Upload Cover Letter Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Cover_Letter_${{ steps.timestamp.outputs.ts }}
+          path: cover_letter.pdf
+          retention-days: 7
+
+      - name: Upload CV Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Resume_${{ steps.timestamp.outputs.ts }}
+          path: resume.pdf
+          retention-days: 7
+
+      # --- MAIN / MASTER BRANCH ONLY: Publish to GitHub Pages & GitHub Release ---
+      - name: Prepare Public Files
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         run: |
           mkdir -p public
           cp resume.pdf public/Arpit_Jain_CV.pdf
           cp cover_letter.pdf public/Arpit_Jain_Cover_Letter.pdf
-          cp index.html public/
+          if [ -f index.html ]; then cp index.html public/; fi
+          
           cp resume.pdf "Arpit_Jain_CV_${{ steps.timestamp.outputs.ts }}.pdf"
           cp cover_letter.pdf "Arpit_Jain_Cover_Letter_${{ steps.timestamp.outputs.ts }}.pdf"
 
       - name: Setup Pages
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         uses: actions/configure-pages@v5
 
       - name: Upload Pages Artifact
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         uses: actions/upload-pages-artifact@v3
         with:
           path: './public'
 
       - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         id: deployment
         uses: actions/deploy-pages@v4
 
       - name: Create GitHub Release
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: release-${{ steps.timestamp.outputs.ts }}
           name: "Release ${{ steps.timestamp.outputs.ts }}"
           body: "Automated release containing the latest CV and Cover Letter PDFs."
-          draft: false
-          prerelease: false
           files: |
             Arpit_Jain_CV_${{ steps.timestamp.outputs.ts }}.pdf
             Arpit_Jain_Cover_Letter_${{ steps.timestamp.outputs.ts }}.pdf
