@@ -1,7 +1,6 @@
 \documentclass[letterpaper,11pt]{article}
-\usepackage{latexsym, enumitem, hyperref, fancyhdr, fontawesome5, tgheros, color}
-\renewcommand*\familydefault{\sfdefault}
-\usepackage[margin=0.75in]{geometry}
+
+\input{data/packages.tex}
 
 \begin{document}
 
@@ -9,30 +8,7 @@
 
 \vspace{15pt}
 
-\noindent \today \\[10pt]
-\textbf{Hiring Manager} \\
-\textbf{Target Company Name} \\
-Location
-
-\vspace{15pt}
-
-\noindent Dear Hiring Manager,
-
-\vspace{10pt}
-
-\input{data/summary.tex}
-
-\vspace{10pt}
-
-\noindent In my recent role at UBS, I led the modernization of platform architectures, integrating Active Directory with Azure Graph API and deploying custom Model Context Protocol (MCP) servers to automate enterprise entitlement workflows. Prior to UBS, my 10-year tenure at Citi involved architecting high-throughput microservice platforms processing 2M+ daily trade feeds with Spring Boot, Kafka, and Redis.
-
-\vspace{10pt}
-
-\noindent I am eager to bring my expertise in enterprise cloud strategy, platform resiliency, and cross-functional leadership to your team. Thank you for your time and consideration.
-
-\vspace{20pt}
-
-\noindent Sincerely, \\[15pt]
-\textbf{Arpit Jain}
+\input{data/cover_text.tex}
+\input{data/signature.tex}
 
 \end{document}
