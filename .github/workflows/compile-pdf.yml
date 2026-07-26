@@ -3,6 +3,7 @@ name: Build & Release Resume & Cover Letter
 on:
   push:
     branches:
+      - main
       - master
   workflow_dispatch:
     inputs:
@@ -43,7 +44,7 @@ jobs:
         id: timestamp
         run: echo "ts=$(date +'%Y-%m-%d_%H-%M')" >> $GITHUB_OUTPUT
 
-      # Injects workflow inputs into LaTeX variables dynamically
+      # Inject workflow inputs into LaTeX variables dynamically
       - name: Prepare Dynamic Cover Letter Parameters
         run: |
           COMPANY="${{ inputs.company_name || 'Target Company Name' }}"
@@ -75,7 +76,7 @@ jobs:
       - name: Rename Cover Letter Output
         run: mv cover_letter_dynamic.pdf cover_letter.pdf
 
-      # --- ALWAYS AVAILABLE: Download PDFs from Workflow Summary / Artifacts ---
+      # --- ALWAYS RUNS (Manual & Push): Downloadable via Workflow Artifacts ---
       - name: Upload Cover Letter Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -90,9 +91,9 @@ jobs:
           path: resume.pdf
           retention-days: 7
 
-      # --- MAIN / MASTER BRANCH ONLY: Publish to GitHub Pages & GitHub Release ---
+      # --- ONLY RUNS ON 'PUSH' TO MASTER/MAIN: Updates Pages & GitHub Release ---
       - name: Prepare Public Files
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        if: github.event_name == 'push'
         run: |
           mkdir -p public
           cp resume.pdf public/Arpit_Jain_CV.pdf
@@ -103,27 +104,27 @@ jobs:
           cp cover_letter.pdf "Arpit_Jain_Cover_Letter_${{ steps.timestamp.outputs.ts }}.pdf"
 
       - name: Setup Pages
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        if: github.event_name == 'push'
         uses: actions/configure-pages@v5
 
       - name: Upload Pages Artifact
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        if: github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
           path: './public'
 
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        if: github.event_name == 'push'
         id: deployment
         uses: actions/deploy-pages@v4
 
       - name: Create GitHub Release
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        if: github.event_name == 'push'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: release-${{ steps.timestamp.outputs.ts }}
           name: "Release ${{ steps.timestamp.outputs.ts }}"
-          body: "Automated release containing the latest CV and Cover Letter PDFs."
+          body: "Automated release containing the latest master CV and Cover Letter PDFs."
           files: |
             Arpit_Jain_CV_${{ steps.timestamp.outputs.ts }}.pdf
             Arpit_Jain_Cover_Letter_${{ steps.timestamp.outputs.ts }}.pdf
