@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -39,17 +40,12 @@ jobs:
       - name: Prepare Artifacts & Web Files
         run: |
           mkdir -p public
-          
-          # Web view & download files
           cp resume.pdf public/Arpit_Jain_CV.pdf
           cp cover_letter.pdf public/Arpit_Jain_Cover_Letter.pdf
           cp index.html public/
-          
-          # Renamed PDF files with timestamps for GitHub Release assets
           cp resume.pdf "Arpit_Jain_CV_${{ steps.timestamp.outputs.ts }}.pdf"
           cp cover_letter.pdf "Arpit_Jain_Cover_Letter_${{ steps.timestamp.outputs.ts }}.pdf"
 
-      # Upload Pages artifact for native GitHub Pages deployment
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
